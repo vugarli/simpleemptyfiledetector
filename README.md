@@ -1,5 +1,5 @@
 # simpleemptyfiledetector
-Sime python script finds non empty files (files with at least one non-zero byte).
+Python script that finds non empty files (files with at least one non-zero byte).
 
 # Problem
 
