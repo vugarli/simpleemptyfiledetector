@@ -5,8 +5,10 @@ from os.path import join
 from os import walk
 
 # rootdir =  "C:\\Users\\vuqar\Desktop\\recovery\\"
-rootdir = "E:\\100CANON"
-logdir = "C:\\Users\\vuqar\\Desktop\\"
+
+
+rootdir = "H:\\pics"
+logdir = "C:\\Users\\vuqar\\"
 
 files = []
 
@@ -15,22 +17,29 @@ for (dir,dirnames,filenames) in walk(rootdir):
         print(file)
         files.append(join(dir,file))
 
+filecount = len(files)
+
 print("Files discovered: ",len(files))
 print("Press any button to continue")
 input()
 
 emptyfiles = []
 nonemptyfiles = []
-
+counter=0
 for f in files:
+    print(filecount-counter, " remaining..")
+    counter+=1
     with open(f, 'rb') as file:
         bytes = file.read()
-        if sum(bytes) == 0:
-            emptyfiles.append(f)
-        else:
-            nonemptyfiles.append(f)
+        for b in bytes:
+            if b != 0:
+                nonemptyfiles.append(f)
+                break
+        emptyfiles.append(f)
+        
+            
 
-print("Process finished... ",len(emptyfiles)," empty files discovered")
+print("Process finished... ",len(emptyfiles)," empty files discovered & ",len(nonemptyfiles)," discovered")
 input()
 
 logfile = (("".join((date.ctime(datetime.now())).split()))+".txt").replace(":","_")
@@ -38,6 +47,7 @@ logfile = (("".join((date.ctime(datetime.now())).split()))+".txt").replace(":","
 with open((logdir+logfile),"w") as log:
     for f in nonemptyfiles:
         log.write(f+"\n")
+    
 
 print("Type delete to delete all empty files....")
 check = input()
